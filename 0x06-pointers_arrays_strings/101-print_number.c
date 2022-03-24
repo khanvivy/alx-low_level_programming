@@ -1,41 +1,26 @@
 #include "main.h"
 
 /**
-* print_number - prints an integer
-* @n: int to be printed
-* Return: nothing
+* print_number - print number chars
+* @n: integer params
+* Return: 0
 **/
 
 void print_number(int n)
 {
-	int dup, neg;
+	unsigned int n1;
 
-	dup = 1000000000;
-	neg = 1;
+	n1 = n;
 
-	if (n > 0)
+	if (n < 0)
 	{
-		neg *= -1;
-		n *= -1;
+		_putchar('-');
+		n1 = -n;
 	}
 
-	if (n != 0)
-	{
-		while (n / dup == 0)
-		{
-			dup = dup / 10;
-		}
-		if (neg == 1)
-		{
-			_putchar('-');
-		}
-		while (dup >= 1)
-		{
-			_putchar(-(n / dup) + '0');
-			n = n % dup;
-			dup = dup / 10;
-		}
+	if (n1 / 10)
+        {
+                print_number(n1 / 10);
 	}
-	else
-		_putchar('0');
+	_putchar((n1 % 10) + '0');
 }
