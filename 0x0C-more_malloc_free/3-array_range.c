@@ -3,48 +3,25 @@
 #include <stdlib.h>
 
 /**
- * array_range - creates an array of integers in memory
- *
- * @min: value to start at
- * @max: value to end at
- *
- * Return: pointer to beginning of array
+ * array_range - creates an array of integers,
+ * with values from min (included) to max (included).
+ * @min: start value.
+ * @max: final value.
+ * Return: pointer to the array.
  */
 int *array_range(int min, int max)
 {
-	int *ret, len = 0, temp;
+	int i, length, *arr;
 
 	if (min > max)
 		return (NULL);
-	temp = min;
-	while (temp <= max)
-	{
-		len++;
-		temp++;
-	}
-	ret = malloc(sizeof(min) * len);
-	if (ret == NULL)
-		return (NULL);
-	ret = fill_array_range(ret, min, max);
-	return (ret);
-}
-/**
- * fill_array_range - fills an array with a range of nums
- *
- * @p: array to fill
- * @min: bottom of range
- * @max: top of range
- *
- * Return: pointer to beginning of filled array
- */
-int *fill_array_range(int *p, int min, int max)
-{
-	int i = 0;
+	length = max - min + 1;
 
-	while (min <= max)
-	{
-		p[i] = min;
-		i++, min++;
-	}
-	return (p);
+	arr = malloc(sizeof(int) * length);
+	if (arr == NULL)
+		return (NULL);
+
+	for (i = 0; (i + min) <= max; i++)
+		arr[i] = i + min;
+	return (arr);
 }
