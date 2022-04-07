@@ -3,46 +3,49 @@
 #include <stdio.h>
 
 /**
- * _realloc - reallocates old to new, set conditions from problem
- * returning dest w/ size of malloc new_size, set src as ptr
- * @ptr: pointer to memory prev alloc, must free end
- * @old_size: input old
- * @new_size: input new
- * Return: 0
+ * *_realloc - reallocates a memory block using malloc and free
+ * @ptr: pointer to the memory previsouly allocated by malloc
+ * @old_size: size of the allocated memory for ptr
+ * @new_size: new size of the new memory block
+ *
+ * Return: pointer to the newly allocated memory block
  */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
-	char *dest, *src;
+	char *ptr1;
+	char *old_ptr;
 	unsigned int i;
 
 	if (new_size == old_size)
 		return (ptr);
 
-	if (ptr == NULL)
-	{
-		ptr = malloc(new_size);
-		if (ptr == NULL)
-		{
-			return (NULL);
-		}
-		return (ptr);
-	}
-
-	if (new_size == 0 && ptr != NULL)
+	if (new_size == 0 && ptr)
 	{
 		free(ptr);
 		return (NULL);
 	}
 
-	dest = malloc(new_size);
-	if (dest == NULL)
+	if (!ptr)
+		return (malloc(new_size));
+
+	ptr1 = malloc(new_size);
+	if (!ptr1)
 		return (NULL);
 
-	src = ptr;
+	old_ptr = ptr;
 
-	for (i = 0; i < new_size && i < old_size; i++)
-		dest[i] = src[i];
+	if (new_size < old_size)
+	{
+		for (i = 0; i < new_size; i++)
+			ptr1[i] = old_ptr[i];
+	}
+
+	if (new_size > old_size)
+	{
+		for (i = 0; i < old_size; i++)
+			ptr1[i] = old_ptr[i];
+	}
+
 	free(ptr);
-
-	return (dest);
+	return (ptr1);
 }
