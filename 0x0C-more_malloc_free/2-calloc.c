@@ -2,32 +2,43 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void *set_mem(void *p, unsigned int nmemb, unsigned int size, char ch);
 /**
- * _calloc - Allocates memory for an array of a certain number of elements each of an inputted byte size.
- * @nmemb: The number of elements.
- * @size: The byte size of each array element.
+ * _calloc - allocates memory for an array, and inits
  *
- * Return: If nmemb = 0, size = 0, or the function fails - NULL.
- * Otherwise - a pointer to the allocated memory.
+ * @nmemb: number of members in array
+ * @size: size of each member
+ *
+ * Return: void pointer to beginning of alloc/init'ed memory
  */
 void *_calloc(unsigned int nmemb, unsigned int size)
 {
-	void *mem;
-	char *filler;
-	unsigned int index;
+	void *ret;
 
-	if (nmemb == 0 || size == 0)
+	if (nmemb < 1 || size < 1)
 		return (NULL);
-
-	mem = malloc(size * nmemb);
-
-	if (mem == NULL)
+	ret = malloc(nmemb * size);
+	if (ret == NULL)
 		return (NULL);
+	ret = set_mem(ret, nmemb, size, '\0');
+	return (ret);
+}
+/**
+ * set_mem - sets memory for void pointer
+ *
+ * @p: pointer to beginning of memory to set
+ * @nmemb: number of members of array
+ * @size: size of elements of array
+ * @ch: character to set memory to
+ *
+ * Return: void pointer to beginning of set memory
+ */
+void *set_mem(void *p, unsigned int nmemb, unsigned int size, char ch)
+{
+	char *cast = p;
+	unsigned int i = 0;
 
-	filler = mem;
-
-	for (index = 0; index < (size * nmemb); index++)
-		filler[index] = '\0';
-
-	return (mem);
+	while (i < nmemb * size)
+		cast[i++] = ch;
+	return (p);
 }
