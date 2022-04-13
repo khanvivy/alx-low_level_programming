@@ -1,35 +1,37 @@
-#include <stdio.h>
 #include <stdlib.h>
-
+#include <stdio.h>
 /**
- * main - prints opcode of own main function
- * @argc: argument count
- * @argv: array of arguments
- * Return: 1 or 2 on fail, 0 on success
+ * main - entry point for program
+ * @argc: arg counter, number of args
+ * @argv: array of pointers to args, in order given
+ *
+ * Return: 0 on success, 1 if argc not right, 2 if bytes is negative
  */
 int main(int argc, char *argv[])
 {
-	int bytes, i;
-	unsigned char *func_ptr;
+	int (*f)(int, char**);
+	int i = 0;
+	int hexByte;
 
 	if (argc != 2)
 	{
 		printf("Error\n");
 		exit(1);
 	}
-	bytes = atoi(argv[1]);
-	if (bytes < 0)
+	else if (atoi(argv[1]) < 0)
 	{
 		printf("Error\n");
 		exit(2);
 	}
-	func_ptr = (unsigned char *)main;
-	i = 0;
-	if (bytes > 0)
+	f = main;
+	while (i < atoi(argv[1]))
 	{
-		while (i < (bytes - 1))
-			printf("%02hhx ", func_ptr[i++]);
-		printf("%hhx\n", func_ptr[i]);
+		hexByte = *(unsigned char *)(f + i);
+		printf("%.2x", hexByte);
+		if (i < atoi(argv[1]) - 1)
+			putchar(' ');
+		i++;
 	}
+	putchar('\n');
 	return (0);
 }
