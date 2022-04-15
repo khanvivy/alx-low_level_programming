@@ -1,10 +1,11 @@
-#include "variadic_functions.h"
 #include <stdarg.h>
 #include <stdio.h>
+#include "variadic_functions.h"
+
 /**
- * print_strings - prints strings, followed by a new line
- * @separator - string to be printed between strings
- * @n - number of strings passed to the function
+ * print_strings - A function that print strings followed by a new line.
+ * @separator: An input string to be printed between numbers.
+ * @n: number of parameters
  * @...: Other parameters
  * Return: Nothing
  */
