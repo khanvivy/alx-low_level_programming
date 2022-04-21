@@ -18,5 +18,4 @@ free(head->str);
 free(tmp);
 head = head->next;
 }
-}
- 
+} 
