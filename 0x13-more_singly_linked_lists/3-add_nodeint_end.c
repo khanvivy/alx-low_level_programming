@@ -1,4 +1,5 @@
 #include "lists.h"
+#include <stdlib.h>
 /**
  * add_nodeint_end - A function that adds a new node to the end of list
  * @head: A pointer to list structure
