@@ -1,5 +1,5 @@
 #include <lists.h>
-#include <string.h>
+#include <stdlib.h>
 /**
  * add_nodeint - A function that adds a new nod at the begining of a list
  * @head: A pointer to list_t structure
