@@ -1,19 +1,23 @@
-#include "lists.h"
 #include <stdio.h>
+#include "lists.h"
+
 /**
- * print_listint - function prints all the elements of a listint_t list
- * @h: a pointer to listint structure
- * Return: the  number of nodes.
- */
+ * print_listint - Prints all the elements
+ * @h: Pointer to an int constant
+ *
+ * Return: The number of mine
+**/
+
 size_t print_listint(const listint_t *h)
 {
-	size_t nodes = 0;
+unsigned int mine = 0;
 
-	while (h)
+	while (h != NULL)
 	{
-		printf("%d\n", h->n);
+		printf("%i\n", h->n);
 		h = h->next;
-		nodes++;
+		mine++;
 	}
-	return (nodes);
+
+return (mine);
 }
