@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 /**
- * read_textfile - A function that reads a text file 
+ * read_textfile - A function that reads a text file
  * and prints to the POSIX STDOUT
  * @filename: The filename to open
  * @letters: The number of letters to read and print
