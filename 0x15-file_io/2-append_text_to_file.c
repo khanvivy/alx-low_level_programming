@@ -3,87 +3,36 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-
-int safe_close(int);
 /**
- * main - Main function to copy files
- * @argc: The number of passed arguments
- * @argv: The number of passed arguments
- * Return: 1 on success, exits on failure
+ * append_text_to_file - A function that appends text at the end to the  file
+ *  @filename: The filename to open and append in
+ *  @text_content: The NULL terminated string to add
+ *  Return: 1 on success, -1 if the file can not be created, nor written,
+ *  nor write fails.
  */
-int main(int argc, char *argv[])
+int append_text_to_file(const char *filename, char *text_content)
 {
-	char buffer[1024];
-	int bytes_read = 0, _EOF = 1, from_fd = -1, to_fd = -1, error = 0;
+	int fdo, fdw, len = 0;
 
-	if (argc != 3)
+	if (filename == NULL)
+		return (-1);
+
+	fdo = open(filename, O_RDWR | O_APPEND);
+	if (fdo < 0)
+		return (-1);
+	if (text_content == NULL)
 	{
-		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
-		exit(97);
+		close(fdo);
+		return (1);
 	}
 
-	from_fd = open(argv[1], O_RDONLY);
-	if (from_fd < 0)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
+	while (*(text_content + len))
+		len++;
 
-	to_fd = open(argv[2], O_WRONLY | O_TRUNC | O_CREAT, 0664);
-	if (to_fd < 0)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-		safe_close(from_fd);
-		exit(99);
-	}
+	fdw = write(fdo, text_content, len);
+	close(fdo);
+	if (fdw < 0)
+		return (-1);
 
-	while (_EOF)
-	{
-		_EOF = read(from_fd, buffer, 1024);
-		if (_EOF < 0)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-			safe_close(from_fd);
-			safe_close(to_fd);
-			exit(98);
-		}
-		else if (_EOF == 0)
-			break;
-		bytes_read += _EOF;
-		error = write(to_fd, buffer, _EOF);
-		if (error < 0)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-			safe_close(from_fd);
-			safe_close(to_fd);
-			exit(99);
-		}
-	}
-	error = safe_close(to_fd);
-	if (error < 0)
-	{
-		safe_close(from_fd);
-		exit(100);
-	}
-	error = safe_close(from_fd);
-	if (error < 0)
-		exit(100);
-	return (0);
-}
-
-/**
- * safe_close - A function that closes a file and prints error when closed file
- * @description: Description error for closed file
- * Return: 1 on success, -1 on failure
- */
-int safe_close(int description)
-{
-	int error;
-
-	error = close(description);
-	if (error < 0)
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", description);
-	return (error);
+	return (1);
 }
